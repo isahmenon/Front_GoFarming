@@ -22,13 +22,14 @@ export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Cores personalizadas do GoFarming
+  // Cores personalizadas e otimizadas do GoFarming
   const colors = {
-    primaryGreen: '#6941c0', // Seu roxo principal
-    accentOrange: '#ef0000',
-    blueWater: '#1565C0',
-    cardBg: isDark ? '#1E1E1E' : '#F5F5F5',
-    border: isDark ? '#333333' : '#E0E0E0',
+    primaryPurple: '#6941c0',
+    purpleLight: isDark ? 'rgba(105, 65, 192, 0.25)' : 'rgba(105, 65, 192, 0.1)',
+    cardBg: isDark ? '#1C1C1E' : '#FFFFFF',
+    border: isDark ? '#2C2C2E' : '#F2F2F7',
+    textMuted: isDark ? '#AEAEB2' : '#8E8E93',
+    shadow: isDark ? 'transparent' : 'rgba(0, 0, 0, 0.04)',
   };
 
   return (
@@ -39,7 +40,9 @@ export default function HomeScreen() {
           <ThemedText type="title" style={styles.title}>Olá</ThemedText>
           <HelloWave />
         </ThemedView>
-        <ThemedText type="subtitle" style={styles.subtitle}>Bem-vindo ao seu painel</ThemedText>
+        <ThemedText style={[styles.subtitle, { color: colors.textMuted }]}>
+          Bem-vindo ao seu painel de cultivo
+        </ThemedText>
       </ThemedView>
 
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
@@ -50,39 +53,47 @@ export default function HomeScreen() {
         <ThemedView style={styles.statsContainer}>
           
           {/* CARD: PLANTAS REGADAS */}
-          <ThemedView style={[styles.card, { backgroundColor: colors.cardBg, borderColor: colors.border }]}>
-            {/* Substituído 🌿 por ícone roxo */}
-            <FontAwesome6 name="seedling" size={24} color={colors.primaryGreen} style={styles.iconSpacer} />
-            <ThemedText type="defaultSemiBold" style={styles.cardLabel}>Plantas Regadas</ThemedText>
-            <ThemedText type="title" style={[styles.cardValue, { color: colors.primaryGreen }]}>32</ThemedText>
+          <ThemedView style={[styles.card, { backgroundColor: colors.cardBg, borderColor: colors.border, shadowColor: colors.shadow }]}>
+            <ThemedView style={[styles.iconContainer, { backgroundColor: colors.purpleLight }]}>
+              <FontAwesome6 name="seedling" size={18} color={colors.primaryPurple} />
+            </ThemedView>
+            <ThemedText style={[styles.cardLabel, { color: colors.textMuted }]}>Plantas Regadas</ThemedText>
+            <ThemedText type="title" style={[styles.cardValue, { color: colors.primaryPurple }]}>32</ThemedText>
           </ThemedView>
 
           {/* CARD: QUANTAS FALTAM */}
-          <ThemedView style={[styles.card, { backgroundColor: colors.cardBg, borderColor: colors.border }]}>
-            {/* Substituído ⚠️ por ícone roxo */}
-            <Ionicons name="alert-circle" size={26} color={colors.primaryGreen} style={styles.iconSpacer} />
-            <ThemedText type="defaultSemiBold" style={styles.cardLabel}>Quantas Faltam</ThemedText>
-            <ThemedText type="title" style={[styles.cardValue, { color: colors.primaryGreen }]}>8</ThemedText>
+          <ThemedView style={[styles.card, { backgroundColor: colors.cardBg, borderColor: colors.border, shadowColor: colors.shadow }]}>
+            <ThemedView style={[styles.iconContainer, { backgroundColor: colors.purpleLight }]}>
+              <Ionicons name="alert-circle" size={20} color={colors.primaryPurple} />
+            </ThemedView>
+            <ThemedText style={[styles.cardLabel, { color: colors.textMuted }]}>Quantas Faltam</ThemedText>
+            <ThemedText type="title" style={[styles.cardValue, { color: colors.primaryPurple }]}>8</ThemedText>
           </ThemedView>
 
-          {/* CARD largo: ÚLTIMA REGA */}
-          <ThemedView style={[styles.cardFullWidth, { backgroundColor: colors.cardBg, borderColor: colors.border }]}>
+          {/* CARD LARGO: ÚLTIMA REGA */}
+          <ThemedView style={[styles.cardFullWidth, { backgroundColor: colors.cardBg, borderColor: colors.border, shadowColor: colors.shadow }]}>
             <ThemedView style={styles.cardFullWidthRow}>
-              <ThemedView>
-                {/* Substituído 💧 por ícone roxo */}
-                <FontAwesome6 name="droplet" size={22} color={colors.primaryGreen} style={styles.iconSpacer} />
-                <ThemedText type="defaultSemiBold" style={styles.cardLabel}>Última Rega</ThemedText>
+              <ThemedView style={styles.leftInfoRow}>
+                <ThemedView style={[styles.iconContainer, { backgroundColor: colors.purpleLight }]}>
+                  <FontAwesome6 name="droplet" size={16} color={colors.primaryPurple} />
+                </ThemedView>
+                <ThemedView style={styles.labelContainer}>
+                  <ThemedText style={[styles.cardLabel, { color: colors.textMuted }]}>Última Rega</ThemedText>
+                  <ThemedText type="defaultSemiBold" style={styles.timeValue}>Hoje às 08:30</ThemedText>
+                </ThemedView>
               </ThemedView>
-              <ThemedView style={styles.rightInfo}>
-                <ThemedText type="defaultSemiBold" style={styles.timeValue}>Hoje às 08:30</ThemedText>
-              </ThemedView>
+              <Ionicons name="chevron-forward" size={18} color={colors.primaryPurple} style={{ opacity: 0.5 }} />
             </ThemedView>
           </ThemedView>
 
         </ThemedView>
 
         {/* BOTÃO DE AÇÃO */}
-        <TouchableOpacity style={[styles.actionButton, { backgroundColor: colors.primaryGreen }]}>
+        <TouchableOpacity 
+          style={[styles.actionButton, { backgroundColor: colors.primaryPurple }]}
+          activeOpacity={0.85}
+        >
+          <FontAwesome6 name="droplet" size={16} color="#FFFFFF" style={styles.buttonIcon} />
           <ThemedText type="defaultSemiBold" style={styles.actionButtonText}>Regar Planta</ThemedText>
         </TouchableOpacity>
 
@@ -97,96 +108,122 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   header: {
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingHorizontal: 24,
+    marginBottom: 24,
+    backgroundColor: 'transparent',
   },
   welcomeRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
+    backgroundColor: 'transparent',
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
-    opacity: 0.7,
+    fontSize: 15,
     marginTop: 4,
+    fontWeight: '500',
   },
   scrollContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 30,
+    paddingHorizontal: 24,
+    paddingBottom: 40,
   },
   sectionTitle: {
     fontSize: 18,
-    marginBottom: 15,
-    marginTop: 10,
+    fontWeight: '700',
+    marginBottom: 16,
+    letterSpacing: -0.2,
   },
   statsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    gap: 14,
+    gap: 16,
+    backgroundColor: 'transparent',
   },
   card: {
-    width: '47%',
-    padding: 16,
-    borderRadius: 16,
+    width: '47.5%',
+    padding: 20,
+    borderRadius: 24,
     borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 1,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  iconContainer: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 14,
   },
   cardFullWidth: {
     width: '100%',
-    padding: 16,
-    borderRadius: 16,
+    padding: 18,
+    borderRadius: 24,
     borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-    marginTop: 2,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 1,
+    shadowRadius: 12,
+    elevation: 3,
+    marginTop: 4,
   },
   cardFullWidthRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: 'transparent',
   },
-  rightInfo: {
-    alignItems: 'flex-end',
+  leftInfoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    backgroundColor: 'transparent',
   },
-  iconSpacer: {
-    marginBottom: 8,
+  labelContainer: {
+    backgroundColor: 'transparent',
   },
   cardLabel: {
-    fontSize: 14,
-    opacity: 0.8,
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 2,
   },
   cardValue: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginTop: 4,
+    fontSize: 34,
+    fontWeight: '800',
+    letterSpacing: -0.5,
   },
   timeValue: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: '700',
   },
   actionButton: {
+    flexDirection: 'row',
     width: '100%',
-    padding: 16,
-    borderRadius: 12,
+    padding: 18,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 30,
+    marginTop: 32,
+    shadowColor: '#6941c0',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  buttonIcon: {
+    marginRight: 8,
   },
   actionButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
 });
